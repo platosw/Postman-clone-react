@@ -9,9 +9,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@codemirror/lang-javascript": "^6.1.1",
+    "@uiw/react-codemirror": "^3.2.9",
+    "@uiw/react-textarea-code-editor": "^1.6.0",
     "axios": "^1.1.3",
+    "monaco-editor": "^0.34.1",
+    "next-remove-imports": "^1.0.8",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "react-simple-code-editor": "^0.13.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.24",

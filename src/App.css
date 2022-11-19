@@ -31,3 +31,13 @@
     animation: logo-spin infinite 20s linear;
   }
 }
+
+#editor {
+  padding: 24px;
+}
+
+#editor-light {
+  background-color: rgb(36, 36, 36);
+  padding: 15px;
+  border-color: white;
+}
