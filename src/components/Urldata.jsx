@@ -8,6 +8,9 @@ export default function Urldata() {
   const [method, setMethod] = useState("GET");
   const [url, setUrl] = useState("");
   const [datas, setDatas] = useState();
+  const [status, setStatus] = useState("");
+  const [header, setHeader] = useState("");
+  const [showTime, setShowTime] = useState("");
 
   const handleMethod = (event) => {
     setMethod(event.target.value);
@@ -37,9 +40,31 @@ export default function Urldata() {
     })
       .catch((error) => console.log(error.message))
       .then((response) => {
-        setDatas(response);
+        console.log(response);
+        setDatas(JSON.stringify(response.data));
+        setStatus(JSON.stringify(response.status));
+        setHeader(JSON.stringify(response.headers));
+        setShowTime(JSON.stringify(response.customData.time));
       });
   };
+
+  axios.interceptors.request.use((request) => {
+    request.customData = request.customData || {};
+    request.customData.startTime = new Date().getTime();
+    console.log(request);
+    return request;
+  });
+
+  function updateEndTime(response) {
+    response.customData = response.customData || {};
+    response.customData.time =
+      new Date().getTime() - response.config.customData.startTime;
+    return response;
+  }
+
+  axios.interceptors.response.use(updateEndTime, (e) => {
+    return Promise.reject(updateEndTime(e.response));
+  });
 
   return (
     <>
@@ -69,6 +94,7 @@ export default function Urldata() {
             Send
           </button>
           <div id="editor">
+            <h2 className="text-2xl">JSON</h2>
             <div data-color-mode="light" id="editor-light" className="border-2">
               <CodeEditor
                 value={code}
@@ -84,8 +110,19 @@ export default function Urldata() {
       </form>
 
       <div>
-        <h2 className="text-3xl">Response</h2>
-        <p>{JSON.stringify(datas)}</p>
+        {/* {datas == true && ( */}
+        <div className="response">
+          <h2 className="text-4xl">Response</h2>
+          <br />
+          <h4 className="text-2xl">Body</h4>
+          <p>
+            Status: {status}, Time: {showTime} ms
+          </p>
+          <p>{datas}</p>
+          <h4 className="text-2xl">Headers</h4>
+          <p>{header}</p>
+        </div>
+        {/* )} */}
       </div>
     </>
   );
