@@ -1,6 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import axios from "axios";
-import CodeEditor, { SelectionText } from "@uiw/react-textarea-code-editor";
+import CodeEditor from "./Codemirror";
+import Form from "./Form";
+import JSONPretty from "react-json-pretty";
+import "react-json-pretty/themes/monikai.css";
 
 export default function Urldata() {
   const selectMethod = ["GET", "POST", "PUT", "PATCH", "DELETE"];
@@ -8,9 +11,7 @@ export default function Urldata() {
   const [method, setMethod] = useState("GET");
   const [url, setUrl] = useState("");
   const [datas, setDatas] = useState();
-  const [status, setStatus] = useState("");
-  const [header, setHeader] = useState("");
-  const [showTime, setShowTime] = useState("");
+  const [jsonData, setJsonData] = useState();
 
   const handleMethod = (event) => {
     setMethod(event.target.value);
@@ -19,15 +20,7 @@ export default function Urldata() {
     setUrl(event.target.value);
   };
 
-  const textRef = useRef();
-  const [code, setCode] = useState(`[\n\n]`);
-
-  useEffect(() => {
-    if (textRef.current) {
-      const obj = new SelectionText(textRef.current);
-      console.log("obj:", obj);
-    }
-  }, []);
+  const [data, setData] = useState({});
 
   const handleSubmit = () => {
     axios({
@@ -35,18 +28,20 @@ export default function Urldata() {
       method: method,
       params: {},
       headers: {},
-      code,
-      datas,
+      data: jsonData,
     })
       .catch((error) => console.log(error.message))
       .then((response) => {
         console.log(response);
-        setDatas(JSON.stringify(response.data));
-        setStatus(JSON.stringify(response.status));
-        setHeader(JSON.stringify(response.headers));
-        setShowTime(JSON.stringify(response.customData.time));
+        setDatas(response);
       });
   };
+
+  const handleJsonData = (jsonData) => {
+    setJsonData(jsonData);
+  };
+
+  // adding form test
 
   axios.interceptors.request.use((request) => {
     request.customData = request.customData || {};
@@ -93,36 +88,38 @@ export default function Urldata() {
           >
             Send
           </button>
-          <div id="editor">
-            <h2 className="text-2xl">JSON</h2>
-            <div data-color-mode="light" id="editor-light" className="border-2">
-              <CodeEditor
-                value={code}
-                ref={textRef}
-                language="js"
-                placeholder="Please enter JS code."
-                onChange={(evn) => setCode(evn.target.value)}
-                padding={15}
-              />
-            </div>
+          <div id="queryparams">
+            <h2 className="text-2xl">Query Params</h2>
+            <Form />
+          </div>
+          <div id="headers">
+            <h2 className="text-2xl">Headers</h2>
+            <Form />
+          </div>
+          <h2 className="text-2xl">JSON</h2>
+          <div className="border-2 border-gray-400">
+            <CodeEditor jsonData={jsonData} setJsonData={handleJsonData} />
           </div>
         </div>
       </form>
 
       <div>
-        {/* {datas == true && ( */}
-        <div className="response">
-          <h2 className="text-4xl">Response</h2>
-          <br />
-          <h4 className="text-2xl">Body</h4>
-          <p>
-            Status: {status}, Time: {showTime} ms
-          </p>
-          <p>{datas}</p>
-          <h4 className="text-2xl">Headers</h4>
-          <p>{header}</p>
-        </div>
-        {/* )} */}
+        {datas && (
+          <div className="response">
+            <h2 className="text-4xl">Response</h2>
+            <br />
+            <h4 className="text-2xl">Body</h4>
+            <p>
+              Status: {datas.status}, Time: {datas.customData.time} ms
+            </p>
+            <JSONPretty
+              id="json-pretty"
+              data={JSON.stringify(datas.data)}
+            ></JSONPretty>
+            <h4 className="text-2xl">Headers</h4>
+            <p>{JSON.stringify(datas.headers)}</p>
+          </div>
+        )}
       </div>
     </>
   );
