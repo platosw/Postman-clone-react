@@ -32,7 +32,7 @@ export default function Urldata() {
     })
       .catch((error) => console.log(error.message))
       .then((response) => {
-        console.log(response);
+        console.log("DB is connected");
         setDatas(response);
       });
   };
@@ -46,7 +46,7 @@ export default function Urldata() {
   axios.interceptors.request.use((request) => {
     request.customData = request.customData || {};
     request.customData.startTime = new Date().getTime();
-    console.log(request);
+    // console.log(request);
     return request;
   });
 
@@ -60,6 +60,13 @@ export default function Urldata() {
   axios.interceptors.response.use(updateEndTime, (e) => {
     return Promise.reject(updateEndTime(e.response));
   });
+
+  function updateResponseHeaders(headers) {
+    Object.entries(headers).forEach(([key, value]) => {
+      JSON.stringify(key);
+      JSON.stringify(value);
+    });
+  }
 
   return (
     <>
@@ -102,22 +109,25 @@ export default function Urldata() {
           </div>
         </div>
       </form>
-
+      <br />
+      <br />
       <div>
         {datas && (
           <div className="response">
             <h2 className="text-4xl">Response</h2>
-            <br />
-            <h4 className="text-2xl">Body</h4>
             <p>
               Status: {datas.status}, Time: {datas.customData.time} ms
             </p>
+            <br />
+            <h4 className="text-2xl">Body</h4>
             <JSONPretty
               id="json-pretty"
               data={JSON.stringify(datas.data)}
             ></JSONPretty>
             <h4 className="text-2xl">Headers</h4>
-            <p>{JSON.stringify(datas.headers)}</p>
+            <p>
+              {Object.keys(datas.headers)}: {Object.values(datas.headers)}
+            </p>
           </div>
         )}
       </div>
