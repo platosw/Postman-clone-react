@@ -4,6 +4,7 @@ import CodeEditor from "./Codemirror";
 import Form from "./Form";
 import JSONPretty from "react-json-pretty";
 import "react-json-pretty/themes/monikai.css";
+import prettyBytes from "pretty-bytes";
 
 export default function Urldata() {
   const selectMethod = ["GET", "POST", "PUT", "PATCH", "DELETE"];
@@ -116,7 +117,11 @@ export default function Urldata() {
           <div className="response">
             <h2 className="text-4xl">Response</h2>
             <p>
-              Status: {datas.status}, Time: {datas.customData.time} ms
+              Status: {datas.status}, Time: {datas.customData.time} ms, Size:{" "}
+              {prettyBytes(
+                JSON.stringify(datas.data).length +
+                  JSON.stringify(datas.headers).length
+              )}
             </p>
             <br />
             <h4 className="text-2xl">Body</h4>
