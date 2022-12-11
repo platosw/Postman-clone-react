@@ -13,29 +13,46 @@ export default function Urldata() {
   const [url, setUrl] = useState("");
   const [datas, setDatas] = useState();
   const [jsonData, setJsonData] = useState();
+  const [queryParamsFormValues, setQueryParamsFormValues] = useState([
+    { key: "", value: "" },
+  ]);
+  const [headersFormValues, setHeadersFormValues] = useState([
+    { key: "", value: "" },
+  ]);
 
   const handleMethod = (event) => {
     setMethod(event.target.value);
   };
+
   const handleUrl = (event) => {
     setUrl(event.target.value);
   };
 
-  const [data, setData] = useState({});
+  const convertArrayToObject = (arr) => {
+    const obj = {};
+
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i].key === "") continue;
+
+      obj[arr[i].key] = arr[i].value;
+    }
+
+    return obj;
+  };
 
   const handleSubmit = () => {
     axios({
       url: url,
       method: method,
-      params: {},
-      headers: {},
+      params: convertArrayToObject(queryParamsFormValues),
+      headers: convertArrayToObject(headersFormValues),
       data: jsonData,
     })
-      .catch((error) => console.log(error.message))
       .then((response) => {
         console.log("DB is connected");
         setDatas(response);
-      });
+      })
+      .catch((error) => console.log(error.message));
   };
 
   const handleJsonData = (jsonData) => {
@@ -61,13 +78,6 @@ export default function Urldata() {
   axios.interceptors.response.use(updateEndTime, (e) => {
     return Promise.reject(updateEndTime(e.response));
   });
-
-  function updateResponseHeaders(headers) {
-    Object.entries(headers).forEach(([key, value]) => {
-      JSON.stringify(key);
-      JSON.stringify(value);
-    });
-  }
 
   return (
     <>
@@ -98,11 +108,17 @@ export default function Urldata() {
           </button>
           <div id="queryparams">
             <h2 className="text-2xl">Query Params</h2>
-            <Form />
+            <Form
+              formValues={queryParamsFormValues}
+              setFormValues={setQueryParamsFormValues}
+            />
           </div>
           <div id="headers">
             <h2 className="text-2xl">Headers</h2>
-            <Form />
+            <Form
+              formValues={headersFormValues}
+              setFormValues={setHeadersFormValues}
+            />
           </div>
           <h2 className="text-2xl">JSON</h2>
           <div className="border-2 border-gray-400">

@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
-export default function Form() {
-  const [formValues, setFormValues] = useState([{ key: "", value: "" }]);
-
+export default function Form({ formValues, setFormValues }) {
   let handleChange = (i, e) => {
     let newFormValues = [...formValues];
     newFormValues[i][e.target.name] = e.target.value;
