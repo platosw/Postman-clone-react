@@ -19,6 +19,7 @@ export default function Urldata() {
   const [headersFormValues, setHeadersFormValues] = useState([
     { key: "", value: "" },
   ]);
+  const [openTab, setOpenTab] = useState(1);
 
   const handleMethod = (event) => {
     setMethod(event.target.value);
@@ -106,23 +107,106 @@ export default function Urldata() {
           >
             Send
           </button>
-          <div id="queryparams">
-            <h2 className="text-2xl">Query Params</h2>
-            <Form
-              formValues={queryParamsFormValues}
-              setFormValues={setQueryParamsFormValues}
-            />
-          </div>
-          <div id="headers">
-            <h2 className="text-2xl">Headers</h2>
-            <Form
-              formValues={headersFormValues}
-              setFormValues={setHeadersFormValues}
-            />
-          </div>
-          <h2 className="text-2xl">JSON</h2>
-          <div className="border-2 border-gray-400">
-            <CodeEditor jsonData={jsonData} setJsonData={handleJsonData} />
+          <div id="request-tab" className="flex flex-wrap">
+            <div className="w-full">
+              <ul
+                className="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row"
+                role="tablist"
+              >
+                <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
+                  <a
+                    className={
+                      "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
+                      (openTab === 1
+                        ? "bg-neutral-400 text-black"
+                        : "text-white")
+                    }
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setOpenTab(1);
+                    }}
+                    data-toggle="tab"
+                    href="#link1"
+                    role="tablist"
+                  >
+                    Query Params
+                  </a>
+                </li>
+                <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
+                  <a
+                    className={
+                      "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
+                      (openTab === 2
+                        ? "bg-neutral-400 text-black"
+                        : "text-white")
+                    }
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setOpenTab(2);
+                    }}
+                    data-toggle="tab"
+                    href="#link2"
+                    role="tablist"
+                  >
+                    Headers
+                  </a>
+                </li>
+                <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
+                  <a
+                    className={
+                      "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
+                      (openTab === 3
+                        ? "bg-neutral-400 text-black"
+                        : "text-white")
+                    }
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setOpenTab(3);
+                    }}
+                    data-toggle="tab"
+                    href="#link3"
+                    role="tablist"
+                  >
+                    JSON
+                  </a>
+                </li>
+              </ul>
+              <div className="relative flex flex-col min-w-0 break-words border-1 border-grey-500/100 w-full mb-6 shadow-lg rounded">
+                <div className="px-4 py-5 flex-auto">
+                  <div className="tab-content tab-space">
+                    <div
+                      className={openTab === 1 ? "block" : "hidden"}
+                      id="link1"
+                    >
+                      <Form
+                        formValues={queryParamsFormValues}
+                        setFormValues={setQueryParamsFormValues}
+                      />
+                    </div>
+                    <div
+                      className={openTab === 2 ? "block" : "hidden"}
+                      id="link2"
+                    >
+                      <Form
+                        formValues={headersFormValues}
+                        setFormValues={setHeadersFormValues}
+                      />
+                    </div>
+                    <div
+                      className={openTab === 3 ? "block" : "hidden"}
+                      id="link3"
+                    >
+                      <div className="border-2 border-gray-400">
+                        <CodeEditor
+                          jsonData={jsonData}
+                          setJsonData={handleJsonData}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </form>
@@ -140,15 +224,17 @@ export default function Urldata() {
               )}
             </p>
             <br />
-            <h4 className="text-2xl">Body</h4>
-            <JSONPretty
-              id="json-pretty"
-              data={JSON.stringify(datas.data)}
-            ></JSONPretty>
-            <h4 className="text-2xl">Headers</h4>
-            <p>
-              {Object.keys(datas.headers)}: {Object.values(datas.headers)}
-            </p>
+            <div>
+              <h4 className="text-2xl">Body</h4>
+              <JSONPretty
+                id="json-pretty"
+                data={JSON.stringify(datas.data)}
+              ></JSONPretty>
+              <h4 className="text-2xl">Headers</h4>
+              <p>
+                {Object.keys(datas.headers)}: {Object.values(datas.headers)}
+              </p>
+            </div>
           </div>
         )}
       </div>
