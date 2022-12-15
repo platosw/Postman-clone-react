@@ -20,6 +20,7 @@ export default function Urldata() {
     { key: "", value: "" },
   ]);
   const [openTab, setOpenTab] = useState(1);
+  const [requestTab, setRequestTab] = useState(1);
 
   const handleMethod = (event) => {
     setMethod(event.target.value);
@@ -224,16 +225,76 @@ export default function Urldata() {
               )}
             </p>
             <br />
-            <div>
-              <h4 className="text-2xl">Body</h4>
-              <JSONPretty
-                id="json-pretty"
-                data={JSON.stringify(datas.data)}
-              ></JSONPretty>
-              <h4 className="text-2xl">Headers</h4>
-              <p>
-                {Object.keys(datas.headers)}: {Object.values(datas.headers)}
-              </p>
+            <div id="request-tab" className="flex flex-wrap">
+              <div className="w-full">
+                <ul
+                  className="flex mb-0 list-none flex-wrap pt-3 pb-4 flex-row"
+                  role="tablist"
+                >
+                  <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
+                    <a
+                      className={
+                        "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
+                        (requestTab === 1
+                          ? "bg-neutral-400 text-black"
+                          : "text-white")
+                      }
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setRequestTab(1);
+                      }}
+                      data-toggle="tab"
+                      href="#link1"
+                      role="tablist"
+                    >
+                      Body
+                    </a>
+                  </li>
+                  <li className="-mb-px mr-2 last:mr-0 flex-auto text-center">
+                    <a
+                      className={
+                        "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
+                        (requestTab === 2
+                          ? "bg-neutral-400 text-black"
+                          : "text-white")
+                      }
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setRequestTab(2);
+                      }}
+                      data-toggle="tab"
+                      href="#link2"
+                      role="tablist"
+                    >
+                      Headers
+                    </a>
+                  </li>
+                </ul>
+                <div className="relative flex flex-col min-w-0 break-words border-1 border-grey-500/100 w-full mb-6 shadow-lg rounded">
+                  <div className="px-4 py-5 flex-auto">
+                    <div className="tab-content tab-space">
+                      <div
+                        className={requestTab === 1 ? "block" : "hidden"}
+                        id="link1"
+                      >
+                        <JSONPretty
+                          id="json-pretty"
+                          data={JSON.stringify(datas.data)}
+                        ></JSONPretty>
+                      </div>
+                      <div
+                        className={requestTab === 2 ? "block" : "hidden"}
+                        id="link2"
+                      >
+                        <p>
+                          {Object.keys(datas.headers)}:{" "}
+                          {Object.values(datas.headers)}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         )}
