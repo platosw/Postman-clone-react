@@ -286,10 +286,15 @@ export default function Urldata() {
                         className={requestTab === 2 ? "block" : "hidden"}
                         id="link2"
                       >
-                        <p>
-                          {Object.keys(datas.headers)}:{" "}
-                          {Object.values(datas.headers)}
-                        </p>
+                        {Object.entries(datas.headers).map(([key, value]) => {
+                          return (
+                            <div key={key}>
+                              <p>
+                                {key}: {value}
+                              </p>
+                            </div>
+                          );
+                        })}
                       </div>
                     </div>
                   </div>
