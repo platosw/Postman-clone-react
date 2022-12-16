@@ -84,30 +84,35 @@ export default function Urldata() {
   return (
     <>
       <form data-form>
-        <div className="w-full">
-          <select onChange={handleMethod}>
-            {selectMethod.map((method) => {
-              return (
-                <option key={method} value={method}>
-                  {method}
-                </option>
-              );
-            })}
-          </select>
-          <input
-            className="w-96"
-            type="url"
-            placeholder="https://example.com"
-            value={url}
-            onChange={handleUrl}
-          />
-          <button
-            type="button"
-            className="bg-blue-600 hover:bg-blue-400 text-white"
-            onClick={handleSubmit}
-          >
-            Send
-          </button>
+        <div>
+          <div className="request-select/request-url/send mb-12">
+            <select
+              className="h-10 w-0.5/6 border-2 border-orange-300 rounded select-url-box"
+              onChange={handleMethod}
+            >
+              {selectMethod.map((method) => {
+                return (
+                  <option key={method} value={method}>
+                    {method}
+                  </option>
+                );
+              })}
+            </select>
+            <input
+              className="w-5/6 h-10 border-2 border-orange-300 rounded select-url-box"
+              type="url"
+              placeholder="https://example.com"
+              value={url}
+              onChange={handleUrl}
+            />
+            <button
+              type="button"
+              className="bg-blue-600 hover:bg-blue-400 text-white h-10 w-24 rounded"
+              onClick={handleSubmit}
+            >
+              Send
+            </button>
+          </div>
           <div id="request-tab" className="flex flex-wrap">
             <div className="w-full">
               <ul
@@ -119,8 +124,8 @@ export default function Urldata() {
                     className={
                       "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
                       (openTab === 1
-                        ? "bg-neutral-400 text-black"
-                        : "text-white")
+                        ? "bg-orange-500 text-white"
+                        : "text-orange-500")
                     }
                     onClick={(e) => {
                       e.preventDefault();
@@ -138,8 +143,8 @@ export default function Urldata() {
                     className={
                       "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
                       (openTab === 2
-                        ? "bg-neutral-400 text-black"
-                        : "text-white")
+                        ? "bg-orange-500 text-white"
+                        : "text-orange-500")
                     }
                     onClick={(e) => {
                       e.preventDefault();
@@ -157,8 +162,8 @@ export default function Urldata() {
                     className={
                       "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
                       (openTab === 3
-                        ? "bg-neutral-400 text-black"
-                        : "text-white")
+                        ? "bg-orange-500 text-white"
+                        : "text-orange-500")
                     }
                     onClick={(e) => {
                       e.preventDefault();
@@ -216,7 +221,7 @@ export default function Urldata() {
       <div>
         {datas && (
           <div className="response">
-            <h2 className="text-4xl">Response</h2>
+            <h2 className="text-3xl font-medium">Response</h2>
             <p>
               Status: {datas.status}, Time: {datas.customData.time} ms, Size:{" "}
               {prettyBytes(
@@ -236,8 +241,8 @@ export default function Urldata() {
                       className={
                         "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
                         (requestTab === 1
-                          ? "bg-neutral-400 text-black"
-                          : "text-white")
+                          ? "bg-orange-500 text-white"
+                          : "text-orange-500")
                       }
                       onClick={(e) => {
                         e.preventDefault();
@@ -255,8 +260,8 @@ export default function Urldata() {
                       className={
                         "text-xs font-bold uppercase px-5 py-3 shadow-lg rounded block leading-normal " +
                         (requestTab === 2
-                          ? "bg-neutral-400 text-black"
-                          : "text-white")
+                          ? "bg-orange-500 text-white"
+                          : "text-orange-500")
                       }
                       onClick={(e) => {
                         e.preventDefault();

@@ -27,6 +27,7 @@ export default function Form({ formValues, setFormValues }) {
             value={element.key || ""}
             onChange={(e) => handleChange(index, e)}
             placeholder="Key"
+            className="w-1/3 border-2 border-grey-300 rounded keyvaluepair"
           />
           <input
             type="text"
@@ -34,21 +35,20 @@ export default function Form({ formValues, setFormValues }) {
             value={element.value || ""}
             onChange={(e) => handleChange(index, e)}
             placeholder="Value"
+            className="w-1/3 border-2 border-grey-300 rounded keyvaluepair"
           />
-          {index ? (
-            <button
-              type="button"
-              className="button remove"
-              onClick={() => removeFormFields(index)}
-            >
-              Remove
-            </button>
-          ) : null}
+          <button
+            type="button"
+            className="button remove text-red-500 remove-btn rounded"
+            onClick={() => removeFormFields(index)}
+          >
+            Remove
+          </button>
         </div>
       ))}
       <div className="button-section">
         <button
-          className="button add"
+          className="button add add-btn rounded"
           type="button"
           onClick={() => addFormFields()}
         >
