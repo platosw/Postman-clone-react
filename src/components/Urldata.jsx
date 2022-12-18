@@ -3,8 +3,8 @@ import axios from "axios";
 import CodeEditor from "./Codemirror";
 import Form from "./Form";
 import JSONPretty from "react-json-pretty";
-import "react-json-pretty/themes/monikai.css";
 import prettyBytes from "pretty-bytes";
+import "react-json-pretty/themes/monikai.css";
 
 export default function Urldata() {
   const selectMethod = ["GET", "POST", "PUT", "PATCH", "DELETE"];
@@ -285,6 +285,7 @@ export default function Urldata() {
                         <JSONPretty
                           id="json-pretty"
                           data={JSON.stringify(datas.data)}
+                          mainStyle="padding: 1.5rem; height: 700px;"
                         ></JSONPretty>
                       </div>
                       <div

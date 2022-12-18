@@ -62,6 +62,8 @@ button:focus-visible {
 
 .select-url-box {
   border-width: 1px;
+  padding: 0.25rem;
+  margin-right: 0.25rem;
 }
 
 .remove-btn {
