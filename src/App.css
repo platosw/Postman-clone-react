@@ -36,3 +36,23 @@
   padding: 15px;
   border-color: white;
 }
+
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+  color: rgb(249, 115, 22);
+}
+
+.title-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: rgb(249, 115, 22);
+  margin-bottom: 3rem;
+  font-size: xx-large;
+  font-weight: 750;
+}
