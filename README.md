@@ -6,8 +6,6 @@
 
 A simple version <a href="http://reactjs.org" target="_blank">React</a> app of Postman built on top of <a href="https://vitejs.dev/" target="-blank">Vite</a>.
 
-<br/>
-
 ## How To Run Locally
 ```bash
 #Clone the project
